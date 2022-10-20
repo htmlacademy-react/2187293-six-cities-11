@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Aleksandra Lushkina](https://up.htmlacademy.ru/react/11/user/2187293).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий (sench) Железцов](https://htmlacademy.ru/profile/sench).
 
 ---
 
