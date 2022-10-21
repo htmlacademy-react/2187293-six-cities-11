@@ -6,8 +6,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+const variants = 312;
+
 root.render(
   <React.StrictMode>
-    <App />
+    <App variants={variants}/>
   </React.StrictMode>,
 );
