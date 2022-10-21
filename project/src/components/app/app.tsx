@@ -1,5 +1,6 @@
+import HomeScreen from '../../pages/home/HomeScreen';
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return <HomeScreen />;
 }
 
 export default App;
