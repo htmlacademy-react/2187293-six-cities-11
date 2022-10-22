@@ -12,24 +12,24 @@ function HomeScreen({ variants }: HomeScreenProps): JSX.Element {
           <div className="container">
             <div className="header__wrapper">
               <div className="header__left">
-                <a className="header__logo-link header__logo-link--active">
+                <button className="header__logo-link header__logo-link--active">
                   <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"></img>
-                </a>
+                </button>
               </div>
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
-                    <a className="header__nav-link header__nav-link--profile" href="#">
+                    <button className="header__nav-link header__nav-link--profile">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
                       </div>
                       <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                       <span className="header__favorite-count">3</span>
-                    </a>
+                    </button>
                   </li>
                   <li className="header__nav-item">
-                    <a className="header__nav-link" href="#">
+                    <button className="header__nav-link" >
                       <span className="header__signout">Sign out</span>
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </nav>
@@ -43,34 +43,34 @@ function HomeScreen({ variants }: HomeScreenProps): JSX.Element {
             <section className="locations container">
               <ul className="locations__list tabs__list">
                 <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
+                  <button className="locations__item-link tabs__item">
                     <span>Paris</span>
-                  </a>
+                  </button>
                 </li>
                 <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
+                  <button className="locations__item-link tabs__item">
                     <span>Cologne</span>
-                  </a>
+                  </button>
                 </li>
                 <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
+                  <button className="locations__item-link tabs__item">
                     <span>Brussels</span>
-                  </a>
+                  </button>
                 </li>
                 <li className="locations__item">
-                  <a className="locations__item-link tabs__item tabs__item--active">
+                  <button className="locations__item-link tabs__item tabs__item--active">
                     <span>Amsterdam</span>
-                  </a>
+                  </button>
                 </li>
                 <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
+                  <button className="locations__item-link tabs__item">
                     <span>Hamburg</span>
-                  </a>
+                  </button>
                 </li>
                 <li className="locations__item">
-                  <a className="locations__item-link tabs__item" href="#">
+                  <button className="locations__item-link tabs__item">
                     <span>Dusseldorf</span>
-                  </a>
+                  </button>
                 </li>
               </ul>
             </section>
