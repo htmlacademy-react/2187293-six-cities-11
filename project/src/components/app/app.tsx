@@ -1,4 +1,4 @@
-import HomeScreen from '../../pages/home/HomeScreen';
+import HomeScreen from '../../pages/home/home-screen';
 
 type AppScreenProps = {
   variants: number;

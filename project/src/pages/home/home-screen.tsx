@@ -1,4 +1,4 @@
-import Card from '../../components/card/Card';
+import Card from '../../components/card/card';
 
 type HomeScreenProps = {
   variants: number;
