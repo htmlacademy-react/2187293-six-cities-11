@@ -1,4 +1,4 @@
-function FavoiritesScreen(): JSX.Element {
+function FavouritesScreen(): JSX.Element {
   return (
     <div className="page">
       <header className="header">
@@ -167,4 +167,4 @@ function FavoiritesScreen(): JSX.Element {
     </div>
   );
 }
-export default FavoiritesScreen;
+export default FavouritesScreen;
