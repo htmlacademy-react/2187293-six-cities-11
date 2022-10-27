@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import AppRoutes from '../../consts/app-routes';
+
 function FavouritesScreen(): JSX.Element {
   return (
     <div className="page">
@@ -131,9 +134,9 @@ function FavouritesScreen(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link to={AppRoutes.main} className='footer__logo-link'>
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        </Link>
       </footer>
     </div>
   );
