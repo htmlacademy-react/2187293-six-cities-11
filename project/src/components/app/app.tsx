@@ -27,6 +27,7 @@ function App({ variants }: AppScreenProps): JSX.Element {
       <ScrollToTop />
       <Routes>
         <Route
+          index
           path={AppRoutes.main}
           element={<HomeScreen variants={variants} />}
         />
