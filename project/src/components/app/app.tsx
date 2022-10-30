@@ -7,7 +7,7 @@ import HomeScreen from '../../pages/home/home-screen';
 import LoginScreen from '../../pages/login/login-screen';
 import FavouritesScreen from '../../pages/favourites/favourites-screen';
 import RoomScreen from '../../pages/room/room-screen';
-import NotFoundScreen from '../../pages/404/not-found';
+import NotFoundScreen from '../../pages/404/not-found-screen';
 
 import AppRoutes from '../../consts/app-routes';
 
