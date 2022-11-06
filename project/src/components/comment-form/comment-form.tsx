@@ -6,7 +6,7 @@ function CommentForm(): JSX.Element {
     review: '',
   });
 
-  const submitHandler = (evt: ChangeEvent<HTMLInputElement>) => {
+  const submitHandler = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
     setComment({ ...comment, [name]: value});
   };
@@ -50,7 +50,7 @@ function CommentForm(): JSX.Element {
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" onChange={submitHandler} id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea className="reviews__textarea form__textarea" onChange={submitHandler} value={comment.review} id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
