@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 type LayoutProps = {
   hideHeaderPaths: string[];
@@ -13,24 +13,24 @@ function Layout({ hideHeaderPaths = [] }: LayoutProps) {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <button className="header__logo-link header__logo-link--active">
+              <Link className="header__logo-link header__logo-link--active" to={'/'}>
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"></img>
-              </button>
+              </Link>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <button className="header__nav-link header__nav-link--profile">
+                  <Link className="header__nav-link header__nav-link--profile" to={'/favourites'}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
                     <span className="header__favorite-count">3</span>
-                  </button>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
-                  <button className="header__nav-link" >
+                  <Link to={'/login'} className="header__nav-link" >
                     <span className="header__signout">Sign out</span>
-                  </button>
+                  </Link>
                 </li>
               </ul>
             </nav>

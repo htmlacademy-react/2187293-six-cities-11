@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function MainEmptyScreen(): JSX.Element {
   return (
     <div className="page page--gray page--main">
@@ -7,34 +9,34 @@ function MainEmptyScreen(): JSX.Element {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <button className="locations__item-link tabs__item">
+                <Link to={'/'} className="locations__item-link tabs__item">
                   <span>Paris</span>
-                </button>
+                </Link>
               </li>
               <li className="locations__item">
-                <button className="locations__item-link tabs__item">
+                <Link to={'/'} className="locations__item-link tabs__item">
                   <span>Cologne</span>
-                </button>
+                </Link>
               </li>
               <li className="locations__item">
-                <button className="locations__item-link tabs__item">
+                <Link to={'/'} className="locations__item-link tabs__item">
                   <span>Brussels</span>
-                </button>
+                </Link>
               </li>
               <li className="locations__item">
-                <button className="locations__item-link tabs__item">
+                <Link to={'/'} className="locations__item-link tabs__item">
                   <span>Amsterdam</span>
-                </button>
+                </Link>
               </li>
               <li className="locations__item">
-                <button className="locations__item-link tabs__item">
+                <Link to={'/'} className="locations__item-link tabs__item">
                   <span>Hamburg</span>
-                </button>
+                </Link>
               </li>
               <li className="locations__item">
-                <button className="locations__item-link tabs__item tabs__item--active">
+                <Link to={'/'} className="locations__item-link tabs__item tabs__item--active">
                   <span>Dusseldorf</span>
-                </button>
+                </Link>
               </li>
             </ul>
           </section>
