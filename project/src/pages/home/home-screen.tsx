@@ -1,10 +1,12 @@
-import Card from '../../components/card/card';
+import OffersList from '../../components/offers-list/offers-list';
+import OfferType from '../../types/offers';
 
 type HomeScreenProps = {
   variants: number;
+  offers: Array<OfferType>;
 };
 
-function HomeScreen({ variants }: HomeScreenProps): JSX.Element {
+function HomeScreen({ variants, offers }: HomeScreenProps): JSX.Element {
   return (
     <div>
       <div className="page page--gray page--main">
@@ -67,11 +69,7 @@ function HomeScreen({ variants }: HomeScreenProps): JSX.Element {
                   </ul>
                 </form>
                 <div className="cities__places-list places__list tabs__content">
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
+                  <OffersList offers={offers} />
                 </div>
               </section>
               <div className="cities__right-section">

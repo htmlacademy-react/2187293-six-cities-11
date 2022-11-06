@@ -13,16 +13,21 @@ import AppRoutes from '../../consts/app-routes';
 
 import ScrollToTop from '../scroll-to-top/scrool-to-top';
 
-import PrivateRoute from '../private-route/private-route';
+// import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 
-import AuthorizationStatus from '../../consts/authorization-status';
+// import AuthorizationStatus from '../../consts/authorization-status';
+
+import CardType from '../../types/offers';
+
+import favoirites from '../../mocks/favourites';
 
 type AppScreenProps = {
   variants: number;
+  offers: Array<CardType>;
 };
 
-function App({ variants }: AppScreenProps): JSX.Element {
+function App({ variants, offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -31,7 +36,7 @@ function App({ variants }: AppScreenProps): JSX.Element {
           <Route
             index
             path={AppRoutes.main}
-            element={<HomeScreen variants={variants} />}
+            element={<HomeScreen variants={variants} offers={offers} />}
           />
           <Route
             path={AppRoutes.login}
@@ -40,9 +45,9 @@ function App({ variants }: AppScreenProps): JSX.Element {
           <Route
             path={AppRoutes.favourites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavouritesScreen />
-              </PrivateRoute>
+              // <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <FavouritesScreen offers={favoirites} />
+              // </PrivateRoute>
             }
           />
           <Route

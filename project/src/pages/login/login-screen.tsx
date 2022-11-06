@@ -34,9 +34,9 @@ function LoginScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <button className="locations__item-link">
+              <Link to={'/'} className="locations__item-link">
                 <span>Amsterdam</span>
-              </button>
+              </Link>
             </div>
           </section>
         </div>
