@@ -1,5 +1,8 @@
 import OffersList from '../../components/offers-list/offers-list';
+import Map from '../../components/map/map';
 import OfferType from '../../types/offers';
+import Location from '../../types/location';
+import { useState } from 'react';
 
 type HomeScreenProps = {
   variants: number;
@@ -7,6 +10,10 @@ type HomeScreenProps = {
 };
 
 function HomeScreen({ variants, offers }: HomeScreenProps): JSX.Element {
+
+  const points = offers.map((offer: OfferType) => offer.location);
+  const [selectedPoint] = useState<Location | undefined>(undefined);
+
   return (
     <div>
       <div className="page page--gray page--main">
@@ -73,7 +80,9 @@ function HomeScreen({ variants, offers }: HomeScreenProps): JSX.Element {
                 </div>
               </section>
               <div className="cities__right-section">
-                <section className="cities__map map"></section>
+                <section className="cities__map map">
+                  <Map city={offers[0].city} points={points} selectedPoint={selectedPoint} />
+                </section>
               </div>
             </div>
           </div>

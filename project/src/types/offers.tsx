@@ -1,11 +1,9 @@
-import location from './location';
+import Location from './location';
+import City from './city';
 
 type offers = {
   bedrooms: number;
-  city: {
-    location: location;
-    name: string;
-  };
+  city: City;
   description: string;
   goods: Array<string>;
   host: {
@@ -18,7 +16,7 @@ type offers = {
   images: Array<string>;
   isFavorite: boolean;
   isPremium: boolean;
-  location: location;
+  location: Location;
   maxAdults: number;
   previewImage: string;
   price: number;
