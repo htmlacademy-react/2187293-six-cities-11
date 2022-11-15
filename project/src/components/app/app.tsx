@@ -13,10 +13,10 @@ import AppRoutes from '../../consts/app-routes';
 
 import ScrollToTop from '../scroll-to-top/scrool-to-top';
 
-// import PrivateRoute from '../private-route/private-route';
+import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 
-// import AuthorizationStatus from '../../consts/authorization-status';
+import AuthorizationStatus from '../../consts/authorization-status';
 
 import CardType from '../../types/offers';
 
@@ -45,9 +45,9 @@ function App({ variants, offers }: AppScreenProps): JSX.Element {
           <Route
             path={AppRoutes.favourites}
             element={
-              // <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavouritesScreen offers={favoirites} />
-              // </PrivateRoute>
+              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+                <FavouritesScreen offers={favoirites} />
+              </PrivateRoute>
             }
           />
           <Route
