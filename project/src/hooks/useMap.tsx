@@ -8,6 +8,7 @@ function useMap(
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
+  const currentCity = useRef<string>();
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
@@ -16,7 +17,7 @@ function useMap(
           lat: city.location.latitude,
           lng: city.location.longitude,
         },
-        zoom: 10
+        zoom: city.location.zoom,
       });
 
       const layer = new TileLayer(
@@ -31,6 +32,10 @@ function useMap(
 
       setMap(instance);
       isRenderedRef.current = true;
+      currentCity.current = city.name;
+    } else if (currentCity.current !== city.name) {
+      map?.flyTo([city.location.latitude, city.location.longitude], city.location.zoom);
+      currentCity.current = city.name;
     }
   }, [mapRef, map, city]);
 
