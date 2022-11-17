@@ -36,7 +36,7 @@ function App({ variants, offers }: AppScreenProps): JSX.Element {
           <Route
             index
             path={AppRoutes.main}
-            element={<HomeScreen variants={variants} offers={offers} />}
+            element={<HomeScreen variants={variants} />}
           />
           <Route
             path={AppRoutes.login}
