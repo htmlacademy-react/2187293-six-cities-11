@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import cities from '../../consts/cities';
-import { changeCity, getOffers } from '../../store/action';
+import { changeCity } from '../../store/action';
 import { useAppDispatch } from '../../hooks/useAppSelector';
 import City from '../../types/city';
 
@@ -27,7 +27,6 @@ function CitiesList({ active }: CitiesListProps): JSX.Element {
                 <li className="locations__item" key={keyValue}>
                   <Link to="/" className={classNames} onClick={() => {
                     dispatch(changeCity(city.name));
-                    dispatch(getOffers());
                   }}
                   >
                     <span>{city.name}</span>

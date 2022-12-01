@@ -18,16 +18,9 @@ import Layout from '../layout/layout';
 
 import AuthorizationStatus from '../../consts/authorization-status';
 
-import CardType from '../../types/offers';
-
 import favoirites from '../../mocks/favourites';
 
-type AppScreenProps = {
-  variants: number;
-  offers: Array<CardType>;
-};
-
-function App({ variants, offers }: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -36,7 +29,7 @@ function App({ variants, offers }: AppScreenProps): JSX.Element {
           <Route
             index
             path={AppRoutes.main}
-            element={<HomeScreen variants={variants} />}
+            element={<HomeScreen />}
           />
           <Route
             path={AppRoutes.login}
