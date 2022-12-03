@@ -1,12 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
 import OfferType from '../types/offers';
-import { changeCity, getOffers, setLoadingStatus } from './action';
+import { changeCity, getFavorites, getOffers, setLoadingStatus } from './action';
 
 type InitialState = {
   city: string;
   offers: OfferType[] | [];
   showOffers: OfferType[] | [];
   isLoading: boolean;
+  favorites: OfferType[] | [];
 };
 
 const initialState: InitialState = {
@@ -14,6 +15,7 @@ const initialState: InitialState = {
   offers: [],
   showOffers: [],
   isLoading: false,
+  favorites: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -24,9 +26,13 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getOffers, (state, action) => {
       state.offers = action.payload;
+      state.showOffers = action.payload.filter((offer: OfferType) => offer.city.name === state.city);
     })
     .addCase(setLoadingStatus, (state, action) => {
       state.isLoading = action.payload;
+    })
+    .addCase(getFavorites, (state, action) => {
+      state.favorites = action.payload;
     });
 });
 

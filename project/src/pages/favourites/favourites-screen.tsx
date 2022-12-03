@@ -2,17 +2,22 @@ import { Link } from 'react-router-dom';
 import Favourite from '../../components/favourite/favourite';
 import AppRoutes from '../../consts/app-routes';
 import OfferType from '../../types/offers';
-
-type FavouritesProps = {
-  offers: Array<OfferType>;
-};
+import store from '../../store';
+import { fetchFavoritesAction } from '../../store/api-actions';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { useEffect } from 'react';
 
 type CitiesNames = Array<string>;
 
-function FavouritesScreen({ offers }: FavouritesProps): JSX.Element {
+function FavouritesScreen(): JSX.Element {
+  useEffect(() => {
+    store.dispatch(fetchFavoritesAction());
+  }, []);
+
+  const favorites = useAppSelector((state) => state.favorites);
 
   const list: CitiesNames = [];
-  offers.forEach((o: OfferType) => {
+  favorites.forEach((o: OfferType) => {
     if (!list.includes(o.city.name)) {
       list.push(o.city.name);
     }
@@ -27,7 +32,7 @@ function FavouritesScreen({ offers }: FavouritesProps): JSX.Element {
           </button>
         </div>
         {
-          offers.filter((o) => o.city.name === city).map((offer) => (
+          favorites.filter((o) => o.city.name === city).map((offer) => (
             <Favourite key={offer.id} offer={offer} />
           ))
         }

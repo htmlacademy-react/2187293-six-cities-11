@@ -12,3 +12,7 @@ export const getOffers = createAction('city/getOffers', (value: [OfferType]) => 
 export const setLoadingStatus = createAction('data/isLoading', (value: boolean) => (
   { payload: value }
 ));
+
+export const getFavorites = createAction('/ity/favorites', (value: [OfferType]) => (
+  { payload: value }
+));

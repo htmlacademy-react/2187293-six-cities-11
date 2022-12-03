@@ -17,10 +17,16 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 
 import AuthorizationStatus from '../../consts/authorization-status';
+import Spinner from '../../components/spinner/spinner';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-import favoirites from '../../mocks/favourites';
 
 function App(): JSX.Element {
+  const isLoading = useAppSelector((state) => state.isLoading);
+
+  if (isLoading) {
+    return (<Spinner />);
+  }
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -39,7 +45,7 @@ function App(): JSX.Element {
             path={AppRoutes.favourites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavouritesScreen offers={favoirites} />
+                <FavouritesScreen />
               </PrivateRoute>
             }
           />
