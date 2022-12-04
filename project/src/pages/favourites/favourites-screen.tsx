@@ -2,18 +2,11 @@ import { Link } from 'react-router-dom';
 import Favourite from '../../components/favourite/favourite';
 import AppRoutes from '../../consts/app-routes';
 import OfferType from '../../types/offers';
-import store from '../../store';
-import { fetchFavoritesAction } from '../../store/api-actions';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { useEffect } from 'react';
 
 type CitiesNames = Array<string>;
 
 function FavouritesScreen(): JSX.Element {
-  useEffect(() => {
-    store.dispatch(fetchFavoritesAction());
-  }, []);
-
   const favorites = useAppSelector((state) => state.favorites);
 
   const list: CitiesNames = [];
