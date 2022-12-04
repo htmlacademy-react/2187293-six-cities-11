@@ -7,7 +7,7 @@ type OfferPropsType = {
 };
 
 function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
-  const { price, title, type, isPremium, rating, id } = offer;
+  const { price, title, type, isPremium, rating, id, previewImage } = offer;
 
   return (
     <article className="cities__card place-card" onMouseOver={() => mouseOverHandler(offer)}>
@@ -20,7 +20,7 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
         : null}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <button>
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place"></img>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"></img>
         </button>
       </div>
       <div className="place-card__info">

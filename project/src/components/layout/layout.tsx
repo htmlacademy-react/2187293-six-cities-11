@@ -3,6 +3,7 @@ import {
   Outlet,
   useLocation,
 } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 type LayoutProps = {
   hideHeaderPaths: string[];
@@ -10,6 +11,8 @@ type LayoutProps = {
 
 function Layout({ hideHeaderPaths = [] }: LayoutProps) {
   const { pathname } = useLocation();
+  const favoritesLength = useAppSelector((state) => state.favorites).length;
+
   return (
     <>
       {!hideHeaderPaths.includes(pathname) &&
@@ -28,7 +31,7 @@ function Layout({ hideHeaderPaths = [] }: LayoutProps) {
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
+                    <span className="header__favorite-count">{favoritesLength}</span>
                   </Link>
                 </li>
                 <li className="header__nav-item">

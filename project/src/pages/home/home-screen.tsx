@@ -8,13 +8,9 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import cities from '../../consts/cities';
 import City from '../../types/city';
 
-type HomeScreenProps = {
-  variants: number;
-};
-
-function HomeScreen({ variants }: HomeScreenProps): JSX.Element {
+function HomeScreen(): JSX.Element {
   const cityName = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector((state) => state.showOffers);
   const points = offers.map((offer: OfferType) => offer.location);
   const [selectedPoint] = useState<Location | undefined>(undefined);
   let city = cities.find((c: City) => c.name === cityName);
@@ -31,7 +27,7 @@ function HomeScreen({ variants }: HomeScreenProps): JSX.Element {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{variants} places to stay in {cityName}</b>
+                <b className="places__found">{offers.length} places to stay in {cityName}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>

@@ -17,17 +17,16 @@ import PrivateRoute from '../private-route/private-route';
 import Layout from '../layout/layout';
 
 import AuthorizationStatus from '../../consts/authorization-status';
+import Spinner from '../../components/spinner/spinner';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-import CardType from '../../types/offers';
 
-import favoirites from '../../mocks/favourites';
+function App(): JSX.Element {
+  const isLoading = useAppSelector((state) => state.isLoading);
 
-type AppScreenProps = {
-  variants: number;
-  offers: Array<CardType>;
-};
-
-function App({ variants, offers }: AppScreenProps): JSX.Element {
+  if (isLoading) {
+    return (<Spinner />);
+  }
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -36,7 +35,7 @@ function App({ variants, offers }: AppScreenProps): JSX.Element {
           <Route
             index
             path={AppRoutes.main}
-            element={<HomeScreen variants={variants} />}
+            element={<HomeScreen />}
           />
           <Route
             path={AppRoutes.login}
@@ -46,7 +45,7 @@ function App({ variants, offers }: AppScreenProps): JSX.Element {
             path={AppRoutes.favourites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavouritesScreen offers={favoirites} />
+                <FavouritesScreen />
               </PrivateRoute>
             }
           />
