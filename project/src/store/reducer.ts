@@ -1,6 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 import OfferType from '../types/offers';
-import { changeCity, getFavorites, getOffers, setLoadingStatus } from './action';
+import {
+  changeCity,
+  getFavorites,
+  getOffers,
+  setLoadingStatus,
+  requireAuthorization,
+  login,
+  logout,
+} from './action';
+import AuthorizationStatus from '../consts/authorization-status';
+import UserType from '../types/user';
 
 type InitialState = {
   city: string;
@@ -8,6 +18,8 @@ type InitialState = {
   showOffers: OfferType[] | [];
   isLoading: boolean;
   favorites: OfferType[] | [];
+  authorizationStatus: string;
+  user: UserType | null;
 };
 
 const initialState: InitialState = {
@@ -16,6 +28,8 @@ const initialState: InitialState = {
   showOffers: [],
   isLoading: false,
   favorites: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  user: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -33,6 +47,16 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getFavorites, (state, action) => {
       state.favorites = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(login, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(logout, (state) => {
+      state.user = null;
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
     });
 });
 
