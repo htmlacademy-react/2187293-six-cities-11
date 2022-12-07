@@ -51,7 +51,7 @@ function App(): JSX.Element {
             }
           />
           <Route
-            path={AppRoutes.offer}
+            path={`${AppRoutes.offer}:id`}
             element={<RoomScreen />}
           />
           <Route
