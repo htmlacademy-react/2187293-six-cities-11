@@ -4,38 +4,71 @@ import CommentForm from '../../components/comment-form/comment-form';
 import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
-import reviews from '../../mocks/reviews';
 import OfferType from '../../types/offers';
-import { getOffer, toggleFavorite, getNearPlaces } from '../../store/axios-actions';
+import CommentType from '../../types/review';
+import AuthorizationStatus from '../../consts/authorization-status';
+import {
+  getOffer,
+  toggleFavorite,
+  getNearPlaces,
+  getCommentsList,
+  postComment,
+} from '../../store/axios-actions';
 import NotFoundScreen from '../404/not-found-screen';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import Spinner from '../../components/spinner/spinner';
 
 function RoomScreen(): JSX.Element {
   const { offerId } = useParams();
   const [offer, setOffer] = useState<OfferType>();
   const [isIconFavorite, setIconFavorite] = useState(false);
   const [nearPlaces, setNearPlaces] = useState<OfferType[] | []>([]);
+  const [comments, setComments] = useState<CommentType[] | []>([]);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const [isLoading, setLoading] = useState(false);
+  const [isEmpty, setEmpty] = useState(false);
 
   useEffect(() => {
     if (offerId) {
+      setLoading(true);
       getOffer(offerId)
         .then((res) => {
+          setLoading(false);
           if (res) {
             setOffer(res);
             setIconFavorite(res.isFavorite);
+          } else {
+            setEmpty(true);
           }
+        }).catch(() => {
+          setLoading(false);
+          setEmpty(true);
         });
       getNearPlaces(offerId)
         .then((res) => {
+          setLoading(false);
           if (res) {
             setNearPlaces(res);
           }
+        }).catch(() => {
+          setLoading(false);
+        });
+      getCommentsList(offerId)
+        .then((res) => {
+          setLoading(false);
+          if (res) {
+            setComments(res);
+          }
+        }).catch(() => {
+          setLoading(false);
         });
     }
   }, [offerId]);
 
-  if (offer) {
+  if (offer && !isLoading) {
     const {
       bedrooms,
+      city,
       description,
       goods,
       host,
@@ -52,6 +85,13 @@ function RoomScreen(): JSX.Element {
     const handleFavoriteClick = () => {
       setIconFavorite(!isIconFavorite);
       toggleFavorite(id, isIconFavorite ? 0 : 1);
+    };
+
+    const handleSubmit = (comment: string, rateScore: number) => {
+      postComment(id.toString(), comment, rateScore)
+        .then((res) => {
+          setComments(res);
+        });
     };
 
     return (
@@ -146,29 +186,41 @@ function RoomScreen(): JSX.Element {
                   </div>
                 </div>
                 <section className="property__reviews reviews">
-                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                  <ReviewList reviews={reviews} />
-                  <CommentForm />
+                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                  <ReviewList reviews={comments} />
+                  {
+                    authorizationStatus === AuthorizationStatus.Auth
+                      ? (<CommentForm handleSubmit={handleSubmit} />)
+                      : null
+                  }
                 </section>
               </div>
             </div>
-            <section className="property__map map">
-              <Map city={nearPlaces[0].city} points={nearPlaces.map((nearPlace: OfferType) => nearPlace.location)} selectedPoint={undefined} />
-            </section>
+            {
+              nearPlaces && nearPlaces.length
+                ? (
+                  <section className="property__map map">
+                    <Map city={city} points={nearPlaces.map((nearPlace: OfferType) => nearPlace.location)} selectedPoint={undefined} />
+                  </section>
+                )
+                : null
+            }
           </section>
           <div className="container">
             <section className="near-places places">
               <h2 className="near-places__title">Other places in the neighbourhood</h2>
               <div className="near-places__list places__list">
-                <OffersList offers={[nearPlaces[0], nearPlaces[1], nearPlaces[2]]} />
+                <OffersList offers={nearPlaces} />
               </div>
             </section>
           </div>
         </main>
       </div>
     );
-  } else {
+  } else if (isEmpty) {
     return (<NotFoundScreen />);
+  } else {
+    return (<Spinner />);
   }
 }
 

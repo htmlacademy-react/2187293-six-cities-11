@@ -1,8 +1,11 @@
+import CommentUser from './comment-user';
+
 type Review = {
-  userName: string;
-  text: string;
-  date: string;
+  id: string;
+  user: CommentUser;
   rating: number;
+  comment: string;
+  date: string;
 };
 
 export default Review;
