@@ -1,7 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import OfferType from '../types/offers';
 import UserType from '../types/user';
-// import AuthorizationStatus from '../consts/authorization-status';
 
 export const changeCity = createAction('city/change', (value: string) => (
   { payload: value }
