@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import OfferType from '../../types/offers';
+import AppRoutes from '../../consts/app-routes';
+import { toggleFavorite } from '../../store/axios-actions';
 
 type OfferPropsType = {
   offer: OfferType;
@@ -7,7 +10,23 @@ type OfferPropsType = {
 };
 
 function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
-  const { price, title, type, isPremium, rating, id, previewImage } = offer;
+  const {
+    price,
+    title,
+    type,
+    isPremium,
+    rating,
+    id,
+    previewImage,
+    isFavorite,
+  } = offer;
+
+  const [isIconFavorite, setIconFavorite] = useState<boolean>(isFavorite);
+
+  const handleFavoriteClick = () => {
+    setIconFavorite(!isIconFavorite);
+    toggleFavorite(id, isIconFavorite ? 0 : 1);
+  };
 
   return (
     <article className="cities__card place-card" onMouseOver={() => mouseOverHandler(offer)}>
@@ -29,7 +48,7 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <button className={`${isIconFavorite ? 'place-card__bookmark-button--active' : 'place-card__bookmark-button'} button`} type="button" onClick={handleFavoriteClick}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -43,7 +62,7 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer:${id}`}>{title}</Link>
+          <Link to={`${AppRoutes.offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

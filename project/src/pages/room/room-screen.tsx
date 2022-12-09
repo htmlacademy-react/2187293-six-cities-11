@@ -1,155 +1,227 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CommentForm from '../../components/comment-form/comment-form';
 import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
-import reviews from '../../mocks/reviews';
-import nearPlaces from '../../mocks/offers';
-import OfferType from '../../types/offers';
 import OffersList from '../../components/offers-list/offers-list';
+import OfferType from '../../types/offers';
+import CommentType from '../../types/review';
+import AuthorizationStatus from '../../consts/authorization-status';
+import {
+  getOffer,
+  toggleFavorite,
+  getNearPlaces,
+  getCommentsList,
+  postComment,
+} from '../../store/axios-actions';
+import NotFoundScreen from '../404/not-found-screen';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import Spinner from '../../components/spinner/spinner';
 
 function RoomScreen(): JSX.Element {
-  return (
-    <div className="page">
-      <main className="page__main page__main--property">
-        <section className="property">
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="studio" />
+  const { offerId } = useParams();
+  const [offer, setOffer] = useState<OfferType>();
+  const [isIconFavorite, setIconFavorite] = useState(false);
+  const [nearPlaces, setNearPlaces] = useState<OfferType[] | []>([]);
+  const [comments, setComments] = useState<CommentType[] | []>([]);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const [isLoading, setLoading] = useState(false);
+  const [isEmpty, setEmpty] = useState(false);
+
+  useEffect(() => {
+    if (offerId) {
+      setLoading(true);
+      getOffer(offerId)
+        .then((res) => {
+          setLoading(false);
+          if (res) {
+            setOffer(res);
+            setIconFavorite(res.isFavorite);
+          } else {
+            setEmpty(true);
+          }
+        }).catch(() => {
+          setLoading(false);
+          setEmpty(true);
+        });
+      getNearPlaces(offerId)
+        .then((res) => {
+          setLoading(false);
+          if (res) {
+            setNearPlaces(res);
+          }
+        }).catch(() => {
+          setLoading(false);
+        });
+      getCommentsList(offerId)
+        .then((res) => {
+          setLoading(false);
+          if (res) {
+            setComments(res);
+          }
+        }).catch(() => {
+          setLoading(false);
+        });
+    }
+  }, [offerId]);
+
+  if (offer && !isLoading) {
+    const {
+      bedrooms,
+      city,
+      description,
+      goods,
+      host,
+      images,
+      id,
+      isPremium,
+      maxAdults,
+      price,
+      rating,
+      title,
+      type,
+    } = offer;
+
+    const handleFavoriteClick = () => {
+      setIconFavorite(!isIconFavorite);
+      toggleFavorite(id, isIconFavorite ? 0 : 1);
+    };
+
+    const handleSubmit = (comment: string, rateScore: number) => {
+      postComment(id.toString(), comment, rateScore)
+        .then((res) => {
+          setComments(res);
+        });
+    };
+
+    return (
+      <div className="page">
+        <main className="page__main page__main--property">
+          <section className="property">
+            <div className="property__gallery-container container">
+              <div className="property__gallery">
+                {
+                  images.map((image: string, i: number) => {
+                    const keyValue = `${i}-${image}`;
+                    return (
+                      <div className="property__image-wrapper" key={keyValue}>
+                        <img className="property__image" src={image} key={keyValue} alt="studio" />);
+                      </div>
+                    );
+                  })
+                }
               </div>
             </div>
-          </div>
-          <div className="property__container container">
-            <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
-              <div className="property__name-wrapper">
-                <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
-                </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
-              </div>
-              <div className="property__rating rating">
-                <div className="property__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
-                  <span className="visually-hidden">Rating</span>
+            <div className="property__container container">
+              <div className="property__wrapper">
+                { isPremium
+                  ? (
+                    <div className="property__mark">
+                      <span>Premium</span>
+                    </div>
+                  ) : null}
+                <div className="property__name-wrapper">
+                  <h1 className="property__name">{title}</h1>
+                  <button className={`${isIconFavorite ? 'property__bookmark-button--active' : 'property__bookmark-button'} button`} type="button" onClick={handleFavoriteClick}>
+                    <svg className="property__bookmark-icon" width="31" height="33">
+                      <use xlinkHref="#icon-bookmark"></use>
+                    </svg>
+                    <span className="visually-hidden">To bookmarks</span>
+                  </button>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
-              </div>
-              <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  Apartment
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                  Max 4 adults
-                </li>
-              </ul>
-              <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
-                <span className="property__price-text">&nbsp;night</span>
-              </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  <li className="property__inside-item">
-                    Wi-Fi
+                <div className="property__rating rating">
+                  <div className="property__stars rating__stars">
+                    <span style={{width: `${rating * 20}%`}}></span>
+                    <span className="visually-hidden">Rating</span>
+                  </div>
+                  <span className="property__rating-value rating__value">{rating}</span>
+                </div>
+                <ul className="property__features">
+                  <li className="property__feature property__feature--entire">
+                    {type}
                   </li>
-                  <li className="property__inside-item">
-                    Washing machine
+                  <li className="property__feature property__feature--bedrooms">
+                    {bedrooms} Bedrooms
                   </li>
-                  <li className="property__inside-item">
-                    Towels
-                  </li>
-                  <li className="property__inside-item">
-                    Heating
-                  </li>
-                  <li className="property__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="property__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="property__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-                    Fridge
+                  <li className="property__feature property__feature--adults">
+                    Max {maxAdults} adults
                   </li>
                 </ul>
-              </div>
-              <div className="property__host">
-                <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                <div className="property__price">
+                  <b className="property__price-value">&euro;{price}</b>
+                  <span className="property__price-text">&nbsp;night</span>
+                </div>
+                <div className="property__inside">
+                  <h2 className="property__inside-title">What&apos;s inside</h2>
+                  <ul className="property__inside-list">
+                    {
+                      goods.map((good: string, i: number) => {
+                        const keyValue = `${i}-${good}`;
+                        return (
+                          <li className="property__inside-item" key={keyValue}>
+                            {good}
+                          </li>
+                        );
+                      })
+                    }
+                  </ul>
+                </div>
+                <div className="property__host">
+                  <h2 className="property__host-title">Meet the host</h2>
+                  <div className="property__host-user user">
+                    <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
+                      <img className="property__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    </div>
+                    <span className="property__user-name">
+                      {host.name}
+                    </span>
+                    { host.isPro
+                      ? (<span className="property__user-status">Pro</span>)
+                      : null}
                   </div>
-                  <span className="property__user-name">
-                    Angelina
-                  </span>
-                  <span className="property__user-status">
-                    Pro
-                  </span>
+                  <div className="property__description">
+                    <p className="property__text">
+                      {description}
+                    </p>
+                  </div>
                 </div>
-                <div className="property__description">
-                  <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-                  </p>
-                </div>
+                <section className="property__reviews reviews">
+                  <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
+                  <ReviewList reviews={comments} />
+                  {
+                    authorizationStatus === AuthorizationStatus.Auth
+                      ? (<CommentForm handleSubmit={handleSubmit} />)
+                      : null
+                  }
+                </section>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                <ReviewList reviews={reviews} />
-                <CommentForm />
-              </section>
             </div>
+            {
+              nearPlaces && nearPlaces.length
+                ? (
+                  <section className="property__map map">
+                    <Map city={city} points={nearPlaces.map((nearPlace: OfferType) => nearPlace.location)} selectedPoint={undefined} />
+                  </section>
+                )
+                : null
+            }
+          </section>
+          <div className="container">
+            <section className="near-places places">
+              <h2 className="near-places__title">Other places in the neighbourhood</h2>
+              <div className="near-places__list places__list">
+                <OffersList offers={nearPlaces} />
+              </div>
+            </section>
           </div>
-          <section className="property__map map">
-            <Map city={nearPlaces[0].city} points={nearPlaces.map((nearPlace: OfferType) => nearPlace.location)} selectedPoint={undefined} />
-          </section>
-        </section>
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              <OffersList offers={[nearPlaces[0], nearPlaces[1], nearPlaces[2]]} />
-            </div>
-          </section>
-        </div>
-      </main>
-    </div>
-  );
+        </main>
+      </div>
+    );
+  } else if (isEmpty) {
+    return (<NotFoundScreen />);
+  } else {
+    return (<Spinner />);
+  }
 }
 
 export default RoomScreen;

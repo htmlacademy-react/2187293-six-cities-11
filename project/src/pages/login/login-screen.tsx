@@ -82,7 +82,7 @@ function LoginScreen(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={'/'} className="locations__item-link">
+              <Link to={AppRoutes.main} className="locations__item-link">
                 <span>Amsterdam</span>
               </Link>
             </div>

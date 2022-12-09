@@ -1,18 +1,27 @@
 import { ChangeEvent, useState } from 'react';
 
-function CommentForm(): JSX.Element {
+type CommentFormProps = {
+  handleSubmit: (comment: string, rateScore: number) => void;
+}
+function CommentForm({ handleSubmit }: CommentFormProps): JSX.Element {
   const [comment, setComment] = useState({
-    rating: '',
+    rating: 0,
     review: '',
   });
+  const [isDisabled, setDisabled] = useState(true);
 
   const submitHandler = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
     setComment({ ...comment, [name]: value});
+    if (comment.rating && comment.review) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="" onSubmit={() => handleSubmit(comment.review, comment.rating)}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" onChange={submitHandler} name="rating" value="5" id="5-stars" type="radio" />
@@ -55,7 +64,7 @@ function CommentForm(): JSX.Element {
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isDisabled} >Submit</button>
       </div>
     </form>
   );

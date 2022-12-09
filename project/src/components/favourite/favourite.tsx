@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import AppRoutes from '../../consts/app-routes';
 
 import OfferType from '../../types/offers';
 
@@ -42,7 +43,7 @@ function Favourite({ offer }: FavouriteProps): JSX.Element {
             </div>
           </div>
           <h2 className="place-card__name">
-            <Link to={`/offer:${id}`}>{title}</Link>
+            <Link to={`${AppRoutes.offer}/${id}`}>{title}</Link>
           </h2>
           <p className="place-card__type">{type}</p>
         </div>

@@ -3,6 +3,7 @@ import cities from '../../consts/cities';
 import { changeCity } from '../../store/action';
 import { useAppDispatch } from '../../hooks/useAppSelector';
 import City from '../../types/city';
+import AppRoutes from '../../consts/app-routes';
 
 type CitiesListProps = {
   active: string;
@@ -25,7 +26,7 @@ function CitiesList({ active }: CitiesListProps): JSX.Element {
               }
               return (
                 <li className="locations__item" key={keyValue}>
-                  <Link to="/" className={classNames} onClick={() => {
+                  <Link to={AppRoutes.main} className={classNames} onClick={() => {
                     dispatch(changeCity(city.name));
                   }}
                   >

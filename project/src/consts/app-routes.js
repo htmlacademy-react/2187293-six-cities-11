@@ -1,8 +1,8 @@
 const AppRoutes = {
   main: '/',
   login: '/login',
-  favourites: '/favourites',
-  offer: '/offer:id',
+  favourites: '/favorites',
+  offer: '/offer',
 };
 
 export default AppRoutes;
