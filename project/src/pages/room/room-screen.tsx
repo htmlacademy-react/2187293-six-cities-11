@@ -9,7 +9,6 @@ import CommentType from '../../types/review';
 import AuthorizationStatus from '../../consts/authorization-status';
 import {
   getOffer,
-  toggleFavorite,
   getNearPlaces,
   getCommentsList,
   postComment,
@@ -17,11 +16,11 @@ import {
 import NotFoundScreen from '../404/not-found-screen';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import Spinner from '../../components/spinner/spinner';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 
 function RoomScreen(): JSX.Element {
   const { offerId } = useParams();
   const [offer, setOffer] = useState<OfferType>();
-  const [isIconFavorite, setIconFavorite] = useState(false);
   const [nearPlaces, setNearPlaces] = useState<OfferType[] | []>([]);
   const [comments, setComments] = useState<CommentType[] | []>([]);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
@@ -36,7 +35,6 @@ function RoomScreen(): JSX.Element {
           setLoading(false);
           if (res) {
             setOffer(res);
-            setIconFavorite(res.isFavorite);
           } else {
             setEmpty(true);
           }
@@ -80,12 +78,8 @@ function RoomScreen(): JSX.Element {
       rating,
       title,
       type,
+      isFavorite,
     } = offer;
-
-    const handleFavoriteClick = () => {
-      setIconFavorite(!isIconFavorite);
-      toggleFavorite(id, isIconFavorite ? 0 : 1);
-    };
 
     const handleSubmit = (comment: string, rateScore: number) => {
       postComment(id.toString(), comment, rateScore)
@@ -122,12 +116,12 @@ function RoomScreen(): JSX.Element {
                   ) : null}
                 <div className="property__name-wrapper">
                   <h1 className="property__name">{title}</h1>
-                  <button className={`${isIconFavorite ? 'property__bookmark-button--active' : 'property__bookmark-button'} button`} type="button" onClick={handleFavoriteClick}>
-                    <svg className="property__bookmark-icon" width="31" height="33">
-                      <use xlinkHref="#icon-bookmark"></use>
-                    </svg>
-                    <span className="visually-hidden">To bookmarks</span>
-                  </button>
+                  <FavoriteButton
+                    isFavorite={isFavorite}
+                    offerId={id}
+                    onToggle={null}
+                    iconType="property"
+                  />
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
