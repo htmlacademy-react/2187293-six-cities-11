@@ -8,6 +8,7 @@ import {
   requireAuthorization,
   login,
   logout,
+  sortShowOffers,
 } from './action';
 import AuthorizationStatus from '../consts/authorization-status';
 import UserType from '../types/user';
@@ -57,6 +58,9 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(logout, (state) => {
       state.user = null;
       state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(sortShowOffers, (state, action) => {
+      state.showOffers = action.payload;
     });
 });
 
