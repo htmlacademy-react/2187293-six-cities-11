@@ -14,11 +14,21 @@ function HomeScreen(): JSX.Element {
   const cityName = useAppSelector((state) => state.city);
   const offers = useAppSelector((state) => state.showOffers);
   const points = offers.map((offer: OfferType) => offer.location);
-  const [selectedPoint] = useState<Location | undefined>(undefined);
+  const [selectedPoint, setSelectedPoint] = useState<Location | undefined>(undefined);
   let city = cities.find((c: City) => c.name === cityName);
   if (!city) {
     city = cities[0];
   }
+
+  const changeMapMarkerClor = (id: number) => {
+    let location;
+    if (offers) {
+      location = offers.find((o) => o.id === id)?.location;
+      if (location) {
+        setSelectedPoint(location);
+      }
+    }
+  };
 
   return (
     <div>
@@ -35,7 +45,7 @@ function HomeScreen(): JSX.Element {
                       <b className="places__found">{offers.length} places to stay in {cityName}</b>
                       <Sorting sortBy={SortTypes.Popular} />
                       <div className="cities__places-list places__list tabs__content">
-                        <OffersList offers={offers} />
+                        <OffersList offers={offers} changeMarkerColor={changeMapMarkerClor} />
                       </div>
                     </section>
                     <div className="cities__right-section">

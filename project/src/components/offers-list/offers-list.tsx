@@ -5,13 +5,17 @@ import Offer from '../offer/offer';
 
 type OffersListProps = {
   offers: Array<OfferType>;
+  changeMarkerColor: ((id: number) => void) | undefined;
 }
-function OffersList({ offers }: OffersListProps): JSX.Element {
+function OffersList({ offers, changeMarkerColor }: OffersListProps): JSX.Element {
   const activeOfferState = useState <OfferType>();
   const setActiveOffer = activeOfferState[1];
 
   const hoverHandler = (offer: OfferType) => {
     setActiveOffer(offer);
+    if (changeMarkerColor) {
+      changeMarkerColor(offer.id);
+    }
   };
 
   return (

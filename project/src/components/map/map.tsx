@@ -3,7 +3,10 @@ import { Marker, Icon } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import City from '../../types/city';
 import Location from '../../types/location';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../consts/icons';
+import {
+  URL_MARKER_DEFAULT,
+  URL_MARKER_CURRENT,
+} from '../../consts/icons';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
@@ -40,7 +43,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== undefined
+            selectedPoint === point
               ? currentCustomIcon
               : defaultCustomIcon
           ).addTo(map);
