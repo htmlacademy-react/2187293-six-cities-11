@@ -14,7 +14,7 @@ type LayoutProps = {
 
 function Layout({ hideHeaderPaths = [] }: LayoutProps) {
   const { pathname } = useLocation();
-  const favoritesLength = useAppSelector((state) => state.favorites).length;
+  const favorites = useAppSelector((state) => state.favorites);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -43,7 +43,7 @@ function Layout({ hideHeaderPaths = [] }: LayoutProps) {
                         <img src={user.avatarUrl} alt="User avatar" />
                       </div>
                       <span className="header__user-name user__name">{user.email}</span>
-                      <span className="header__favorite-count">{favoritesLength}</span>
+                      <span className="header__favorite-count">{favorites.length}</span>
                     </Link>
                   </li>
                   <li className="header__nav-item">

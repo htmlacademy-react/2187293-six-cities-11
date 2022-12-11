@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import OfferType from '../../types/offers';
 import AppRoutes from '../../consts/app-routes';
-import { toggleFavorite } from '../../store/axios-actions';
+import FavoriteButton from '../favorite-button/favorite-button';
 
 type OfferPropsType = {
   offer: OfferType;
@@ -20,13 +19,6 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
     previewImage,
     isFavorite,
   } = offer;
-
-  const [isIconFavorite, setIconFavorite] = useState<boolean>(isFavorite);
-
-  const handleFavoriteClick = () => {
-    setIconFavorite(!isIconFavorite);
-    toggleFavorite(id, isIconFavorite ? 0 : 1);
-  };
 
   return (
     <article className="cities__card place-card" onMouseOver={() => mouseOverHandler(offer)}>
@@ -48,12 +40,7 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`${isIconFavorite ? 'place-card__bookmark-button--active' : 'place-card__bookmark-button'} button`} type="button" onClick={handleFavoriteClick}>
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton isFavorite={isFavorite} offerId={id} onToggle={null} iconType="place-card" />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

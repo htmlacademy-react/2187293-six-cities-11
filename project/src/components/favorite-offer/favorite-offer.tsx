@@ -2,13 +2,14 @@ import { Link } from 'react-router-dom';
 import AppRoutes from '../../consts/app-routes';
 
 import OfferType from '../../types/offers';
+import FavoriteButton from '../favorite-button/favorite-button';
 
 type FavouriteProps = {
   offer: OfferType;
 }
 
-function Favourite({ offer }: FavouriteProps): JSX.Element {
-  const { price, title, type, rating, isPremium, id } = offer;
+function FavouriteOffer({ offer }: FavouriteProps): JSX.Element {
+  const { price, title, type, rating, isPremium, id, isFavorite } = offer;
 
   return (
     <div className="favorites__places">
@@ -29,12 +30,12 @@ function Favourite({ offer }: FavouriteProps): JSX.Element {
               <b className="place-card__price-value">&euro;{price}</b>
               <span className="place-card__price-text">&#47;&nbsp;night</span>
             </div>
-            <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">In bookmarks</span>
-            </button>
+            <FavoriteButton
+              offerId={id}
+              isFavorite={isFavorite}
+              iconType='place-card'
+              onToggle={null}
+            />
           </div>
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
@@ -52,4 +53,4 @@ function Favourite({ offer }: FavouriteProps): JSX.Element {
   );
 }
 
-export default Favourite;
+export default FavouriteOffer;

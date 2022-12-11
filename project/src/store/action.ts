@@ -27,3 +27,7 @@ export const login = createAction('user/login', (value: UserType) => (
 ));
 
 export const logout = createAction('user/logout');
+
+export const sortShowOffers = createAction('city/sortOffers', (value: OfferType[]) => (
+  { payload: value}
+));
