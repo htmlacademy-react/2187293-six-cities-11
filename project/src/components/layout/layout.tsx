@@ -7,6 +7,8 @@ import AuthorizationStatus from '../../consts/authorization-status';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelector';
 import { fetchLogoutAction } from '../../store/api-actions';
 import AppRoutes from '../../consts/app-routes';
+import { getFavorites } from '../../store/favorites-process/selectors';
+import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 
 type LayoutProps = {
   hideHeaderPaths: string[];
@@ -14,9 +16,9 @@ type LayoutProps = {
 
 function Layout({ hideHeaderPaths = [] }: LayoutProps) {
   const { pathname } = useLocation();
-  const favorites = useAppSelector((state) => state.favorites);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
+  const favorites = useAppSelector((getFavorites));
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
 
   const onLogout = () => {

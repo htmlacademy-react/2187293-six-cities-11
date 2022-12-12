@@ -18,9 +18,10 @@ import PrivateRoute from '../private-route/private-route';
 import AppRoutes from '../../consts/app-routes';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import store from '../../store';
+import { getIsLoading } from '../../store/offers-process/selectors';
 
 function App(): JSX.Element {
-  const isLoading = useAppSelector((state) => state.isLoading);
+  const isLoading = useAppSelector(getIsLoading);
 
   if (isLoading) {
     return (<Spinner />);

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import SortTypes from '../../consts/sort-types';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppSelector';
-import { sortShowOffers } from '../../store/action';
+import { sort } from '../../store/offers-process/offers-process';
+import { getCity, getOffers, getShowOffers } from '../../store/offers-process/selectors';
 
 type SortingProps = {
   sortBy: string;
@@ -9,9 +10,9 @@ type SortingProps = {
 
 function Sorting({ sortBy }: SortingProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const offers = useAppSelector((state) => state.showOffers);
-  const allOffers = useAppSelector((state) => state.offers);
-  const selectedCity = useAppSelector((state) => state.city);
+  const offers = useAppSelector(getShowOffers);
+  const allOffers = useAppSelector(getOffers);
+  const selectedCity = useAppSelector(getCity);
 
   const [isSelectorVisible, setSelectorVisibility] = useState(false);
 
@@ -22,16 +23,16 @@ function Sorting({ sortBy }: SortingProps): JSX.Element {
   const changeSorting = (sortType: string) => {
     switch (sortType) {
       case SortTypes.Popular:
-        dispatch(sortShowOffers(allOffers.filter((o) => o.city.name === selectedCity)));
+        dispatch(sort(allOffers.filter((o) => o.city.name === selectedCity)));
         break;
       case SortTypes.PriceHighToLow:
-        dispatch(sortShowOffers([...offers].sort( (a, b) => (b.price - a.price))));
+        dispatch(sort([...offers].sort( (a, b) => (b.price - a.price))));
         break;
       case SortTypes.PriceLowToHigh:
-        dispatch(sortShowOffers([...offers].sort( (a, b) => (a.price - b.price))));
+        dispatch(sort([...offers].sort( (a, b) => (a.price - b.price))));
         break;
       case SortTypes.TopRatedFirst:
-        dispatch(sortShowOffers([...offers].sort( (a, b) => (b.rating - a.rating))));
+        dispatch(sort([...offers].sort( (a, b) => (b.rating - a.rating))));
         break;
     }
   };
