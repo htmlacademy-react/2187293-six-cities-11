@@ -8,7 +8,6 @@ import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type FavoriteProps = {
   offerId: number;
-  onToggle: (() => void) | null;
   isFavorite: boolean;
   iconType: string;
 };
@@ -32,9 +31,6 @@ function FavoriteButton(props: FavoriteProps) {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       setIconFavorite(!isIconFavorite);
       dispatch(toggleFavorite({ offerId, status: isIconFavorite ? 0 : 1 }));
-      if (props.onToggle) {
-        props.onToggle();
-      }
     } else {
       navigate(AppRoutes.login);
     }

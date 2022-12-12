@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Navigate } from 'react-router-dom';
 import AppRoutes from '../../consts/app-routes';
 import AuthorizationStatus from '../../consts/authorization-status';
@@ -19,4 +20,4 @@ function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   );
 }
 
-export default PrivateRoute;
+export default memo(PrivateRoute);

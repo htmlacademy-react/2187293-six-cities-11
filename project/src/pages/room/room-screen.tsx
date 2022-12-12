@@ -120,7 +120,6 @@ function RoomScreen(): JSX.Element {
                   <FavoriteButton
                     isFavorite={isFavorite}
                     offerId={id}
-                    onToggle={null}
                     iconType="property"
                   />
                 </div>

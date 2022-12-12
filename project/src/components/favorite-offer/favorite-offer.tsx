@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import AppRoutes from '../../consts/app-routes';
 
@@ -34,7 +35,6 @@ function FavouriteOffer({ offer }: FavouriteProps): JSX.Element {
               offerId={id}
               isFavorite={isFavorite}
               iconType='place-card'
-              onToggle={null}
             />
           </div>
           <div className="place-card__rating rating">
@@ -53,4 +53,4 @@ function FavouriteOffer({ offer }: FavouriteProps): JSX.Element {
   );
 }
 
-export default FavouriteOffer;
+export default memo(FavouriteOffer);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import SortTypes from '../../consts/sort-types';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppSelector';
 import { sort } from '../../store/offers-process/offers-process';
@@ -80,4 +80,4 @@ function Sorting({ sortBy }: SortingProps): JSX.Element {
   );
 }
 
-export default Sorting;
+export default memo(Sorting);

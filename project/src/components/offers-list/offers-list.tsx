@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 import OfferType from '../../types/offers';
 import Offer from '../offer/offer';
@@ -8,8 +8,7 @@ type OffersListProps = {
   changeMarkerColor: ((id: number) => void) | undefined;
 }
 function OffersList({ offers, changeMarkerColor }: OffersListProps): JSX.Element {
-  const activeOfferState = useState <OfferType>();
-  const setActiveOffer = activeOfferState[1];
+  const [, setActiveOffer] = useState <OfferType>();
 
   const hoverHandler = (offer: OfferType) => {
     setActiveOffer(offer);
@@ -31,4 +30,4 @@ function OffersList({ offers, changeMarkerColor }: OffersListProps): JSX.Element
     </>);
 }
 
-export default OffersList;
+export default memo(OffersList);

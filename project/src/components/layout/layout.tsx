@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import {
   Link,
   Outlet,
@@ -91,4 +92,4 @@ function Layout({ hideHeaderPaths = [] }: LayoutProps) {
   );
 }
 
-export default Layout;
+export default memo(Layout);
