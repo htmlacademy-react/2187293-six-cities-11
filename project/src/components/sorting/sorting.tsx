@@ -15,6 +15,7 @@ function Sorting({ sortBy }: SortingProps): JSX.Element {
   const selectedCity = useAppSelector(getCity);
 
   const [isSelectorVisible, setSelectorVisibility] = useState(false);
+  const [currentSorting, setCurrentSorting] = useState(sortBy);
 
   const showSelector = () => {
     setSelectorVisibility(!isSelectorVisible);
@@ -35,13 +36,15 @@ function Sorting({ sortBy }: SortingProps): JSX.Element {
         dispatch(sort([...offers].sort( (a, b) => (b.rating - a.rating))));
         break;
     }
+    setCurrentSorting(sortType);
+    setSelectorVisibility(false);
   };
 
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
       <span className="places__sorting-type" tabIndex={0} onClick={showSelector}>
-        {sortBy}
+        {currentSorting}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
