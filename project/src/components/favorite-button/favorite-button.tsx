@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthorizationStatus from '../../consts/authorization-status';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelector';
@@ -27,14 +27,20 @@ function FavoriteButton(props: FavoriteProps) {
   const height = iconType === 'property' ? 33 : 19;
 
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = useCallback(() => () => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       setIconFavorite(!isIconFavorite);
       dispatch(toggleFavorite({ offerId, status: isIconFavorite ? 0 : 1 }));
     } else {
       navigate(AppRoutes.login);
     }
-  };
+  }, [
+    dispatch,
+    isIconFavorite,
+    offerId,
+    authorizationStatus,
+    navigate,
+  ]);
 
   return (
     <button

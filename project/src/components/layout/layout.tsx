@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import {
   Link,
   Outlet,
@@ -22,9 +22,9 @@ function Layout({ hideHeaderPaths = [] }: LayoutProps) {
   const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
 
-  const onLogout = () => {
+  const onLogout = useCallback(() => () => {
     dispatch(fetchLogoutAction());
-  };
+  }, [dispatch]);
 
   if (authorizationStatus === AuthorizationStatus.Auth && user) {
     return (
