@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import NotFoundScreen from '../../pages/404/not-found-screen';
 import ReviewType from '../../types/review';
 
@@ -38,4 +39,4 @@ function Review({ review }: ReviewPropsType): JSX.Element {
 
 }
 
-export default Review;
+export default memo(Review);

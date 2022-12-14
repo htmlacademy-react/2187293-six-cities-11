@@ -4,17 +4,17 @@ import AuthorizationStatus from '../../consts/authorization-status';
 import { useAppSelector, useAppDispatch } from '../../hooks/useAppSelector';
 import AppRoutes from '../../consts/app-routes';
 import { toggleFavorite } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type FavoriteProps = {
   offerId: number;
-  onToggle: (() => void) | null;
   isFavorite: boolean;
   iconType: string;
 };
 
 function FavoriteButton(props: FavoriteProps) {
   const { offerId, isFavorite, iconType } = props;
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const [isIconFavorite, setIconFavorite] = useState(isFavorite);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -31,9 +31,6 @@ function FavoriteButton(props: FavoriteProps) {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       setIconFavorite(!isIconFavorite);
       dispatch(toggleFavorite({ offerId, status: isIconFavorite ? 0 : 1 }));
-      if (props.onToggle) {
-        props.onToggle();
-      }
     } else {
       navigate(AppRoutes.login);
     }

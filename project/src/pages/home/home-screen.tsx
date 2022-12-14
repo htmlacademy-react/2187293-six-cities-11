@@ -9,10 +9,11 @@ import cities from '../../consts/cities';
 import City from '../../types/city';
 import Sorting from '../../components/sorting/sorting';
 import SortTypes from '../../consts/sort-types';
+import { getCity, getShowOffers } from '../../store/offers-process/selectors';
 
 function HomeScreen(): JSX.Element {
-  const cityName = useAppSelector((state) => state.city);
-  const offers = useAppSelector((state) => state.showOffers);
+  const cityName = useAppSelector(getCity);
+  const offers = useAppSelector(getShowOffers);
   const points = offers.map((offer: OfferType) => offer.location);
   const [selectedPoint, setSelectedPoint] = useState<Location | undefined>(undefined);
   let city = cities.find((c: City) => c.name === cityName);

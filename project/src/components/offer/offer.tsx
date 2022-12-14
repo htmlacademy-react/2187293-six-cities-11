@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import OfferType from '../../types/offers';
 import AppRoutes from '../../consts/app-routes';
 import FavoriteButton from '../favorite-button/favorite-button';
+import { memo } from 'react';
 
 type OfferPropsType = {
   offer: OfferType;
@@ -40,7 +41,7 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
             <b className="place-card__price-value">{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <FavoriteButton isFavorite={isFavorite} offerId={id} onToggle={null} iconType="place-card" />
+          <FavoriteButton isFavorite={isFavorite} offerId={id} iconType="place-card" />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -56,4 +57,4 @@ function Card({ offer, mouseOverHandler }: OfferPropsType): JSX.Element {
     </article>);
 }
 
-export default Card;
+export default memo(Card);

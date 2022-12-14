@@ -17,13 +17,14 @@ import NotFoundScreen from '../404/not-found-screen';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import Spinner from '../../components/spinner/spinner';
 import FavoriteButton from '../../components/favorite-button/favorite-button';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function RoomScreen(): JSX.Element {
   const { offerId } = useParams();
   const [offer, setOffer] = useState<OfferType>();
   const [nearPlaces, setNearPlaces] = useState<OfferType[] | []>([]);
   const [comments, setComments] = useState<CommentType[] | []>([]);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const [isLoading, setLoading] = useState(false);
   const [isEmpty, setEmpty] = useState(false);
 
@@ -119,7 +120,6 @@ function RoomScreen(): JSX.Element {
                   <FavoriteButton
                     isFavorite={isFavorite}
                     offerId={id}
-                    onToggle={null}
                     iconType="property"
                   />
                 </div>

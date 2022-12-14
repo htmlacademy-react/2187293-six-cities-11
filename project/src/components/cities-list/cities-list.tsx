@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import cities from '../../consts/cities';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/offers-process/offers-process';
 import { useAppDispatch } from '../../hooks/useAppSelector';
 import City from '../../types/city';
 import AppRoutes from '../../consts/app-routes';
+import { memo } from 'react';
 
 type CitiesListProps = {
   active: string;
@@ -42,4 +43,4 @@ function CitiesList({ active }: CitiesListProps): JSX.Element {
   );
 }
 
-export default CitiesList;
+export default memo(CitiesList);

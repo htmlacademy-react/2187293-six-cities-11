@@ -3,11 +3,12 @@ import FavoriteOffer from '../../components/favorite-offer/favorite-offer';
 import AppRoutes from '../../consts/app-routes';
 import OfferType from '../../types/offers';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { getFavorites } from '../../store/favorites-process/selectors';
 
 type CitiesNames = Array<string>;
 
 function FavoriteScreen(): JSX.Element {
-  const favorites = useAppSelector((state) => state.favorites);
+  const favorites = useAppSelector(getFavorites);
 
   const list: CitiesNames = [];
   favorites.forEach((o: OfferType) => {
@@ -17,7 +18,7 @@ function FavoriteScreen(): JSX.Element {
   });
 
   const renderCities = (cities: string[]): JSX.Element[] => cities.map((city: string, index: number) => (
-    <li className="favorites__locations-items" key={`${city }_${ index.toString()}`}>
+    <li className="favorites__locations-items" key={`${city}_${ index.toString()}`}>
       <div className="favorites__locations locations locations--current">
         <div className="locations__item">
           <button className="locations__item-link">

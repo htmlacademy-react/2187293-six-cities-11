@@ -5,6 +5,8 @@ import AuthType from '../../types/auth';
 import { fetchLoginAction } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppSelector';
 import AuthorizationStatus from '../../consts/authorization-status';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getIsLoading } from '../../store/offers-process/selectors';
 
 function LoginScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -27,8 +29,8 @@ function LoginScreen(): JSX.Element {
     }
   };
 
-  const isLoading = useAppSelector((state) => (state.isLoading));
-  const authorizationStatus = useAppSelector((state) => (state.authorizationStatus));
+  const isLoading = useAppSelector(getIsLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (!isLoading && authorizationStatus === AuthorizationStatus.Auth) {
