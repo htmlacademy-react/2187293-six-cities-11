@@ -1,28 +1,54 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { postComment } from '../../store/axios-actions';
+import CommentType from '../../types/review';
 
 type CommentFormProps = {
-  handleSubmit: (comment: string, rateScore: number) => void;
+  handleSubmitResult: (comments: CommentType[]) => void;
+  id: string;
 }
-function CommentForm({ handleSubmit }: CommentFormProps): JSX.Element {
-  const [comment, setComment] = useState({
+function CommentForm({ handleSubmitResult, id }: CommentFormProps): JSX.Element {
+  const initCommentState = {
     rating: 0,
     review: '',
-  });
+  };
+  const [comment, setComment] = useState(initCommentState);
   const [isDisabled, setDisabled] = useState(true);
+  const [hasError, setError] = useState(false);
 
   const submitHandler = (evt: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = evt.target;
     setComment({ ...comment, [name]: value});
-    if (comment.rating && comment.review) {
+    if (comment.rating && comment.review.length >= 50 && comment.review.length <= 300) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
   };
 
+  const onSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    setDisabled(true);
+    postComment(id, comment.review, comment.rating)
+      .then((res) => {
+        const sorted = res.sort((r1, r2) => new Date(r2.date).getTime() - new Date(r1.date).getTime());
+        handleSubmitResult(sorted);
+        setComment(initCommentState);
+        const stars = document.getElementsByName('rating') as NodeListOf<HTMLInputElement>;
+        if (stars) {
+          for (let i = 0; i < stars.length; i++) {
+            stars[i].checked = false;
+          }
+        }
+      })
+      .catch(() => {
+        setError(true);
+      });
+  };
+
   return (
-    <form className="reviews__form form" action="" onSubmit={() => handleSubmit(comment.review, comment.rating)}>
+    <form className="reviews__form form" action="" onSubmit={onSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
+      { hasError ? <h2 className='reviews__title'>An error occured while sending your comment</h2> : null}
       <div className="reviews__rating-form form__rating">
         <input className="form__rating-input visually-hidden" onChange={submitHandler} name="rating" value="5" id="5-stars" type="radio" />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">

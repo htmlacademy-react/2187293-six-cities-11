@@ -11,7 +11,6 @@ import {
   getOffer,
   getNearPlaces,
   getCommentsList,
-  postComment,
 } from '../../store/axios-actions';
 import NotFoundScreen from '../404/not-found-screen';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -80,13 +79,11 @@ function RoomScreen(): JSX.Element {
       title,
       type,
       isFavorite,
+      location,
     } = offer;
 
-    const handleSubmit = (comment: string, rateScore: number) => {
-      postComment(id.toString(), comment, rateScore)
-        .then((res) => {
-          setComments(res);
-        });
+    const handleSubmitResult = (sorted: CommentType[]) => {
+      setComments(sorted);
     };
 
     return (
@@ -184,7 +181,7 @@ function RoomScreen(): JSX.Element {
                   <ReviewList reviews={comments} />
                   {
                     authorizationStatus === AuthorizationStatus.Auth
-                      ? (<CommentForm handleSubmit={handleSubmit} />)
+                      ? (<CommentForm handleSubmitResult={handleSubmitResult} id={id.toString()} />)
                       : null
                   }
                 </section>
@@ -194,7 +191,7 @@ function RoomScreen(): JSX.Element {
               nearPlaces && nearPlaces.length
                 ? (
                   <section className="property__map map">
-                    <Map city={city} points={nearPlaces.map((nearPlace: OfferType) => nearPlace.location)} selectedPoint={undefined} />
+                    <Map city={city} points={[...nearPlaces.map((nearPlace: OfferType) => nearPlace.location), location]} selectedPoint={location} />
                   </section>
                 )
                 : null
