@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, useCallback } from 'react';
 import SortTypes from '../../consts/sort-types';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppSelector';
 import { sort } from '../../store/offers-process/offers-process';
@@ -17,9 +17,9 @@ function Sorting({ sortBy }: SortingProps): JSX.Element {
   const [isSelectorVisible, setSelectorVisibility] = useState(false);
   const [currentSorting, setCurrentSorting] = useState(sortBy);
 
-  const showSelector = () => {
+  const showSelector = useCallback(() => {
     setSelectorVisibility(!isSelectorVisible);
-  };
+  }, [isSelectorVisible]);
 
   const changeSorting = (sortType: string) => {
     switch (sortType) {
