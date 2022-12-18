@@ -7,10 +7,14 @@ type OffersListProps = {
 }
 function ReviewList({ reviews }: OffersListProps): JSX.Element {
   if (reviews && reviews.length > 0) {
+    const sorted = reviews.sort((r1, r2) => new Date(r2.date).getTime() - new Date(r1.date).getTime());
+    const data = reviews.length > 10
+      ? sorted.slice(0, 10)
+      : sorted;
     return (
       <ul className='reviews__list'>
         {
-          reviews.map((value: ReviewType, id: number) => {
+          data.map((value: ReviewType, id: number) => {
             const keyValue = `${id}-${value.user.name}`;
             return (
               <Review review={value} key={keyValue} />

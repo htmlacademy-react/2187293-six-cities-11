@@ -3,10 +3,7 @@ import { Marker, Icon } from 'leaflet';
 import useMap from '../../hooks/useMap';
 import City from '../../types/city';
 import Location from '../../types/location';
-import {
-  URL_MARKER_DEFAULT,
-  URL_MARKER_CURRENT,
-} from '../../consts/icons';
+import Icons from '../../consts/icons';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
@@ -16,13 +13,13 @@ type MapProps = {
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: Icons.URL_MARKER_DEFAULT,
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: Icons.URL_MARKER_CURRENT,
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
